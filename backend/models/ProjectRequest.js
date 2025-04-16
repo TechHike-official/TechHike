@@ -40,8 +40,8 @@ const projectRequestSchema = new mongoose.Schema({
     enum: ['Pending', 'Approved', 'Rejected'],
     default: 'Pending',
   },
-  projectStatusUrl: {
-    type: String,
+ projectStatusUrl: {
+    type: String, 
     required: false,
   },
 }, { timestamps: true });

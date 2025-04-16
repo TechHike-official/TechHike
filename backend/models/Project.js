@@ -4,15 +4,15 @@ const projectSchema = new mongoose.Schema({
   clientId: {
     type: String,
     required: true,
-    ref: 'Client', // Reference to the Client model
+    ref: 'Client',
   },
   clientName: {
     type: String,
     required: true,
   },
-  platform:{
+  platform: {
     type: String,
-    required: true
+    required: true,
   },
   projectTitle: {
     type: String,
@@ -31,7 +31,7 @@ const projectSchema = new mongoose.Schema({
     type: Number,
     min: 0,
     max: 100,
-    default: 0, // 0% completed by default
+    default: 0,
   },
   projectSource: {
     type: String,
@@ -41,14 +41,35 @@ const projectSchema = new mongoose.Schema({
     type: Number,
     required: false,
   },
-  paymentStatus: {
-    type: Boolean,
-    default: false,
+
+  // ✅ Payment related fields
+  payment: {
+    advancePaid: {
+      type: Boolean,
+      default: false,
+    },
+    advanceTransactionId: {
+      type: String,
+      default: null,
+    },
+    remainingPaid: {
+      type: Boolean,
+      default: false,
+    },
+    remainingTransactionId: {
+      type: String,
+      default: null,
+    },
+    isFullyPaidConfirmedByAdmin: {
+      type: Boolean,
+      default: false,
+    }
   },
-  paymentTransactionId: {
-    type: String,
-    default: null,
+  paymentMode:{
+    type: String
+
   },
+
   developers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -56,7 +77,6 @@ const projectSchema = new mongoose.Schema({
   }],
   snapshots: {
     type: [String],
-    required: false,
     default: [],
   },
 }, { timestamps: true });

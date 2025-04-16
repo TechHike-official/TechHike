@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { getAssignedProjects } from '../services/projectService';
+import { getAllProjectofUser } from '../services/projectService';
 import { Briefcase, Clock } from 'lucide-react';
 
 const UserProject = () => {
@@ -16,9 +16,9 @@ const UserProject = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const data = await getAssignedProjects(user.id);
-        setProjects(data);
-        setFilteredProjects(data);
+        const data = await getAllProjectofUser(user.id);
+        setProjects(data.data);
+        setFilteredProjects(data.data);
       } catch (err) {
         setError('Failed to fetch projects');
       } finally {

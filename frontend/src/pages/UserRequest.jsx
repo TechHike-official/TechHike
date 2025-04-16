@@ -91,7 +91,7 @@ const UserRequest = () => {
       const token = localStorage.getItem('token');
       const requestData = { ...formData, clientId: user.id };
       await createRequest(requestData, token);
-      // window.location.reload();
+      window.location.reload();
       setShowRequestForm(false);
       setError(null);
     } catch (err) {

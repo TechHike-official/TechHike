@@ -86,3 +86,78 @@ exports.getAllProjects = async (req, res) => {
       res.status(500).json({ message: 'Error fetching project', error: err.message });
     }
   };
+
+
+
+  exports.getProjectsOfUser = async (req, res) => {
+    try {
+      const { clientId } = req.params;
+  
+      // Find all projects where clientId matches
+      const projects = await Project.find({ clientId });
+  
+      res.status(200).json({
+        success: true,
+        data: projects
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Error fetching projects",
+        error: error.message
+      });
+    }
+  };
+
+
+  exports.updatePaymentInfo = async (req, res) => {
+    const { projectId } = req.params;
+    const { type, transactionId, paymentMode } = req.body; // type = 'advance' or 'remaining'
+  
+    try {
+      const project = await Project.findById(projectId);
+      if (!project) return res.status(404).json({ message: 'Project not found' });
+
+  
+      if (type === 'advance') {
+        project.payment.advancePaid = true;
+        project.payment.advanceTransactionId = transactionId;
+        project.paymentMode = paymentMode
+
+      } else if (type === 'remaining') {
+        project.payment.remainingPaid = true;
+        project.payment.remainingTransactionId = transactionId;
+        project.paymentMode = paymentMode
+      } else {
+        return res.status(400).json({ message: 'Invalid payment type' });
+      }
+  
+      await project.save();
+      res.status(200).json({ message: 'Payment info updated', project });
+    } catch (err) {
+      res.status(500).json({ message: 'Error updating payment info', error: err.message });
+    }
+  };
+
+
+  
+  exports.confirmFullPayment = async (req, res) => {
+    const { projectId } = req.params;
+  
+    try {
+      const project = await Project.findById(projectId);
+      if (!project) return res.status(404).json({ message: 'Project not found' });
+  
+      if (project.payment.advancePaid && project.payment.remainingPaid) {
+        project.payment.isFullyPaidConfirmedByAdmin = true;
+        await project.save();
+        return res.status(200).json({ message: 'Full payment confirmed by admin', project });
+      } else {
+        return res.status(400).json({ message: 'Both payments not completed yet' });
+      }
+    } catch (err) {
+      res.status(500).json({ message: 'Error confirming payment', error: err.message });
+    }
+  };
+
+

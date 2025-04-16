@@ -80,3 +80,33 @@ export const getProjectInfo = async (projectId,token) => {
   );
   return response.data;
 };
+
+export const getAllProjectofUser = async (clientId,token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.get(
+    `${API_URL}/project/allProject/${clientId}`,
+    config
+  );
+  return response.data;
+};
+
+// Update payment information (advance or remaining)
+export const updatePaymentInfo = async (projectId, type, transactionId, paymentMode, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(
+    `${API_URL}/project/update-payment/${projectId}`,
+    { type, transactionId, paymentMode },
+    config
+  );
+
+  return response.data;
+};

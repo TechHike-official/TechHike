@@ -26,3 +26,15 @@ export const getUsersByIds = async (developerIds) => {
     }
 };
 
+export const getUsersById = async (userId) => {
+    console.log("DEVDD:", userId)
+    try {
+        const response = await axios.get(`${API_URL}/user/${userId}`)
+        return response.data.data;
+    } catch (error) {
+        console.error('Error fetching developer users:', error);
+        throw error;
+    }
+};
+
+

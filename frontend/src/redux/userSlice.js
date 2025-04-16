@@ -1,5 +1,6 @@
 // src/redux/userSlice.js
 import { createSlice } from '@reduxjs/toolkit';
+import { getUsersById } from '../services/userService';
 
 const loadInitialState = () => {
   const token = localStorage.getItem('token');

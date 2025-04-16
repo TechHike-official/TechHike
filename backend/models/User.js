@@ -30,6 +30,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  projectStatusUrl: {
+    type: String, 
+    required: false,
+    default: 'https://i.ibb.co/1tMjHrTD/IMG-20250416-172320.png'
+  },
   role: {
     type: String,
     enum: ['client', 'admin'],
