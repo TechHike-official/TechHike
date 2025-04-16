@@ -60,6 +60,14 @@ const projectSchema = new mongoose.Schema({
       type: String,
       default: null,
     },
+    advancePaidDate: {
+      type: Date,
+      default: null,
+    },
+    remainingPaidDate: {
+      type: Date,
+      default: null,
+    },
     isFullyPaidConfirmedByAdmin: {
       type: Boolean,
       default: false,

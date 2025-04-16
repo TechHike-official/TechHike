@@ -21,6 +21,7 @@ import {
   DollarSign,
   QrCode,
   IndianRupeeIcon,
+  IndianRupee,
 } from "lucide-react";
 import DeveloperList from "../components/ui/DeveloperList";
 import ProjectPercentageSelector from "../components/ui/PercentageStatus";
@@ -423,7 +424,7 @@ const UserProjectDetails = () => {
                       Advance Amount
                     </label>
                     <div className="flex items-center">
-                      <DollarSign className="h-6 w-6 text-gray-500 mr-2" />
+                      <IndianRupee className="h-6 w-6 text-gray-500 mr-2" />
                       <span className="text-3xl font-bold text-gray-900">
                         ₹{(project.price / 2).toFixed(2)}
                       </span>
@@ -740,93 +741,56 @@ const UserProjectDetails = () => {
               </div>
             </div>
           )}
+{activeTab === "payments" && (
+  project?.payment ? (
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Type</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction ID</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paid Date</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          <tr>
+            <td className="px-6 py-4 text-sm text-gray-500">Advance</td>
+            <td className="px-6 py-4 text-sm font-medium text-gray-900">
+              {project.payment.advancePaid ? "Paid" : "Unpaid"}
+            </td>
+            <td className="px-6 py-4 text-sm text-gray-500">
+              {project.payment.advanceTransactionId || "-"}
+            </td>
+            <td className="px-6 py-4 text-sm text-gray-500">
+              {project.payment.advancePaidDate
+                ? new Date(project.payment.advancePaidDate).toLocaleDateString()
+                : "-"}
+            </td>
+          </tr>
+          <tr>
+            <td className="px-6 py-4 text-sm text-gray-500">Remaining</td>
+            <td className="px-6 py-4 text-sm font-medium text-gray-900">
+              {project.payment.remainingPaid ? "Paid" : "Unpaid"}
+            </td>
+            <td className="px-6 py-4 text-sm text-gray-500">
+              {project.payment.remainingTransactionId || "-"}
+            </td>
+            <td className="px-6 py-4 text-sm text-gray-500">
+              {project.payment.remainingPaidDate
+                ? new Date(project.payment.remainingPaidDate).toLocaleDateString()
+                : "-"}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  ) : (
+    <div>No payments yet</div>
+  )
+)}
 
-          {activeTab === "payments" && (
-            <div className="p-6">
-              <div className="bg-gray-50 p-4 rounded-lg mb-6">
-                <h2 className="text-lg font-medium text-gray-900 mb-4">
-                  Payment History
-                </h2>
-                {project?.payments?.length > 0 ? (
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-100">
-                        <tr>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
-                            Date
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
-                            Amount
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
-                            Method
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
-                            Status
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {project.payments.map((payment, index) => (
-                          <tr key={index}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {new Date(payment.date).toLocaleDateString()}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                              ${payment.amount}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {payment.method}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span
-                                className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                  payment.status === "completed"
-                                    ? "bg-green-100 text-green-800"
-                                    : "bg-yellow-100 text-yellow-800"
-                                }`}
-                              >
-                                {payment.status}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <CreditCard className="mx-auto h-12 w-12 text-gray-400" />
-                    <h3 className="mt-2 text-sm font-medium text-gray-900">
-                      No payments yet
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500 mb-4">
-                      Make your first payment to get started.
-                    </p>
-                    <button
-                      onClick={() => setShowPaymentModal(true)}
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    >
-                      <DollarSign className="h-5 w-5 mr-2" />
-                      Make Payment
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+
         </div>
       </main>
     </div>

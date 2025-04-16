@@ -123,11 +123,13 @@ exports.getAllProjects = async (req, res) => {
         project.payment.advancePaid = true;
         project.payment.advanceTransactionId = transactionId;
         project.paymentMode = paymentMode
+        project.payment.advancePaidDate = new Date();
 
       } else if (type === 'remaining') {
         project.payment.remainingPaid = true;
         project.payment.remainingTransactionId = transactionId;
         project.paymentMode = paymentMode
+        project.payment.advancePaidDate = new Date();
       } else {
         return res.status(400).json({ message: 'Invalid payment type' });
       }
