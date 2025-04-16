@@ -1,10 +1,48 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
+const Section = ({ id, title, content, isComplex, onActive }) => {
+  useEffect(() => {
+    const section = document.getElementById(`section-${id}`);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) onActive();
+      },
+      { threshold: 0.5 }
+    );
+    if (section) observer.observe(section);
+    return () => section && observer.unobserve(section);
+  }, [id, onActive]);
+
+  return (
+    <section id={`section-${id}`}>
+      <h3 className="text-3xl font-bold mb-4">{title}</h3>
+      {isComplex ? (
+        <div className="space-y-4">
+          {content.map((item, index) =>
+            Array.isArray(item) ? (
+              <ul key={index} className="list-disc list-inside ml-4 space-y-1">
+                {item.map((li, idx) => (
+                  <li key={idx}>{li}</li>
+                ))}
+              </ul>
+            ) : (
+              <p key={index}>{item}</p>
+            )
+          )}
+        </div>
+      ) : (
+        <p>{content}</p>
+      )}
+    </section>
+  );
+};
 
 const TermsOfService = () => {
   const [activeSection, setActiveSection] = useState(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const theme = useSelector((state) => state.general.theme);
 
-  // Handle scroll progress for progress indicator
   useEffect(() => {
     const handleScroll = () => {
       const totalHeight = document.body.scrollHeight - window.innerHeight;
@@ -16,22 +54,21 @@ const TermsOfService = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Sections data for dynamic rendering
   const sections = [
     {
       id: 1,
       title: "Acceptance of Terms",
-      content: "By accessing or using services provided by Tech HiKE, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services."
+      content: "By accessing or using services provided by Tech HiKE, you acknowledge..."
     },
     {
       id: 2,
       title: "Services Description",
-      content: "Tech HiKE provides web development, mobile application development, UI/UX design, and other digital services as outlined in our service agreements. The specific deliverables, timelines, and costs will be detailed in individual project proposals."
+      content: "Tech HiKE provides web development, mobile application development..."
     },
     {
       id: 3,
       title: "Project Timeline & Delivery",
-      content: "All project timelines are estimates based on the scope defined in the agreement. Tech HiKE commits to reasonable efforts to meet agreed deadlines. Delays caused by client feedback, change requests, or factors outside our control may affect the final delivery date."
+      content: "All project timelines are estimates based on the scope defined..."
     },
     {
       id: 4,
@@ -39,104 +76,109 @@ const TermsOfService = () => {
       isComplex: true,
       content: [
         "4.1 Our standard payment schedule is:",
-        ["50% upfront payment before project initiation", "25% upon completion of development milestones", "25% prior to final delivery/launch"],
-        "4.2 All invoices are payable within 14 days of receipt unless otherwise specified.",
-        "4.3 Late payments may result in work suspension until accounts are settled."
+        ["50% upfront", "25% on milestones", "25% on final delivery"],
+        "4.2 All invoices payable within 14 days.",
+        "4.3 Late payments may result in suspension."
       ]
     },
     {
       id: 5,
       title: "Intellectual Property Rights",
-      content: "Upon full payment of all invoices, the client will own all rights to the final deliverables, except for third-party components which may be subject to their own licenses. Tech HiKE reserves the right to showcase the work in our portfolio unless explicitly agreed otherwise."
+      content: "Upon full payment, the client will own all rights to final deliverables..."
     },
     {
       id: 6,
       title: "Confidentiality",
-      content: "Tech HiKE agrees to keep all client information confidential and will not disclose any proprietary information to third parties without explicit permission. This includes business strategies, user data, and proprietary technologies."
+      content: "Tech HiKE agrees to keep all client information confidential..."
     },
     {
       id: 7,
       title: "Limitation of Liability",
-      content: "Tech HiKE's liability is limited to the total amount paid for the specific services. We are not liable for indirect, consequential, or incidental damages arising from the use of our services."
+      content: "Tech HiKE's liability is limited to the total amount paid for the services..."
     },
     {
       id: 8,
       title: "Termination",
-      content: "Either party may terminate the service agreement with 30 days written notice. The client remains responsible for payment of services rendered up to the termination date. Early termination fees may apply as outlined in the service agreement."
+      content: "Either party may terminate the agreement with 30 days written notice..."
     },
     {
       id: 9,
       title: "Changes to Terms",
-      content: "Tech HiKE reserves the right to modify these Terms of Service at any time. Changes will be effective upon posting to our website. Continued use of our services after such modifications constitutes acceptance of the updated terms."
+      content: "Tech HiKE reserves the right to modify these Terms of Service at any time..."
     },
     {
       id: 10,
       title: "Governing Law",
-      content: "These Terms of Service shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions."
+      content: "These Terms shall be governed in accordance with the laws of India..."
     }
   ];
 
+  const isLight = theme === 'light';
+
   return (
-    <div className="bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white min-h-screen relative overflow-hidden">
-      {/* Background Mesh Pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj4KICA8cGF0aCBkPSJNMzAgMzBDMTUgMzAgMCAxNSAwIDAgMTUgMCAzMCAxNSA2MCAxNSA2MCAwIDQ1IDAgMzAgMHoiIGZpbGw9IiMzMzMzMzMiIGZpbGwtb3BhY2l0eT0iMC4wMiIvPgo8L3N2Zz4=')] opacity-10"></div>
-      
-      {/* Blurred Orbs */}
-      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-gray-500/20 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/3 -right-20 w-80 h-80 bg-gray-400/10 rounded-full blur-3xl"></div>
-      
-      {/* Progress Bar */}
-      <div className="fixed top-0 left-0 h-1 bg-gradient-to-r from-gray-700 via-white to-gray-700" style={{ width: `${scrollProgress}%` }}></div>
-      
+    <div className={`${isLight ? 'bg-white text-gray-900' : 'bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white'} min-h-screen relative overflow-hidden`}>
+      {/* Optional background effects for dark mode only */}
+      {!isLight && (
+        <>
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2Zy...')] opacity-10"></div>
+          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-gray-500/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/3 -right-20 w-80 h-80 bg-gray-400/10 rounded-full blur-3xl"></div>
+        </>
+      )}
+
+      {/* Scroll Progress Bar */}
+      <div className={`fixed top-0 left-0 h-1 ${isLight ? 'bg-blue-400' : 'bg-gradient-to-r from-gray-700 via-white to-gray-700'}`} style={{ width: `${scrollProgress}%` }}></div>
+
       <div className="max-w-5xl mx-auto px-6 pt-24 pb-32 relative z-10">
-        {/* Navigation Dots */}
+        {/* Dots Navigation */}
         <nav className="fixed top-1/2 left-4 transform -translate-y-1/2 hidden lg:flex flex-col items-center space-y-4">
           {[...Array(10)].map((_, i) => (
             <a 
               key={i}
-              href={`#section-${i+1}`}
-              onClick={() => setActiveSection(i+1)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${activeSection === i+1 ? 'bg-white scale-125' : 'bg-gray-600 hover:bg-gray-400'}`}
-              aria-label={`Jump to section ${i+1}`}
+              href={`#section-${i + 1}`}
+              onClick={() => setActiveSection(i + 1)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${activeSection === i + 1 ? (isLight ? 'bg-black scale-125' : 'bg-white scale-125') : 'bg-gray-600 hover:bg-gray-400'}`}
             />
           ))}
         </nav>
-        
+
         {/* Header */}
         <header className="mb-20 pl-4">
           <div className="relative inline-block">
-            <h1 className="text-6xl font-extrabold bg-gradient-to-r from-gray-400 via-white to-gray-300 bg-clip-text text-transparent">
+            <h1 className={`text-6xl font-extrabold ${isLight ? 'text-gray-900' : 'bg-gradient-to-r from-gray-400 via-white to-gray-300 bg-clip-text text-transparent'}`}>
               Terms of Service
             </h1>
-            <div className="absolute -bottom-3 left-0 h-1 w-3/4 bg-gradient-to-r from-gray-500 to-white"></div>
-            <div className="absolute -bottom-6 left-0 h-1 w-1/2 bg-gradient-to-r from-gray-600 to-gray-400"></div>
+            <div className={`absolute -bottom-3 left-0 h-1 w-3/4 ${isLight ? 'bg-gray-400' : 'bg-gradient-to-r from-gray-500 to-white'}`}></div>
+            <div className={`absolute -bottom-6 left-0 h-1 w-1/2 ${isLight ? 'bg-gray-300' : 'bg-gradient-to-r from-gray-600 to-gray-400'}`}></div>
           </div>
-          <p className="mt-8 text-lg text-gray-300 max-w-2xl">
+          <p className={`mt-8 text-lg ${isLight ? 'text-gray-700' : 'text-gray-300'} max-w-2xl`}>
             Please review our terms carefully. These guidelines govern your use of Tech HiKE services and establish the framework for our professional relationship.
           </p>
         </header>
-        
-        {/* Table of Contents */}
-        <div className="mb-16 p-6 rounded-xl backdrop-blur-lg bg-gradient-to-br from-gray-900/40 to-gray-800/40 border border-gray-700/30 shadow-lg">
-          <h2 className="text-xl font-semibold mb-4 text-white">Quick Navigation</h2>
+
+        {/* TOC */}
+        <div className={`mb-16 p-6 rounded-xl ${isLight ? 'bg-gray-100 border border-gray-300 shadow-md' : 'backdrop-blur-lg bg-gradient-to-br from-gray-900/40 to-gray-800/40 border border-gray-700/30 shadow-lg'}`}>
+          <h2 className="text-xl font-semibold mb-4">Quick Navigation</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {sections.map((section) => (
               <a 
-                key={section.id} 
+                key={section.id}
                 href={`#section-${section.id}`}
-                className="py-2 px-4 rounded-md hover:bg-gray-800/30 text-gray-300 hover:text-white transition-all duration-300 flex items-center"
+                className={`py-2 px-4 rounded-md transition-all duration-300 flex items-center ${isLight ? 'hover:bg-gray-200 text-gray-800' : 'hover:bg-gray-800/30 text-gray-300 hover:text-white'}`}
               >
-                <span className="w-6 h-6 flex items-center justify-center bg-gray-800/50 rounded-full text-sm mr-3 text-white font-medium">{section.id}</span>
+                <span className={`w-6 h-6 flex items-center justify-center rounded-full text-sm mr-3 font-medium ${isLight ? 'bg-gray-300 text-black' : 'bg-gray-800/50 text-white'}`}>
+                  {section.id}
+                </span>
                 {section.title}
               </a>
             ))}
           </div>
         </div>
-        
-        {/* Main Content */}
+
+        {/* Content */}
         <div className="space-y-16">
           {sections.map((section) => (
-            <Section 
+            <Section
               key={section.id}
               id={section.id}
               title={section.title}
@@ -145,102 +187,38 @@ const TermsOfService = () => {
               onActive={() => setActiveSection(section.id)}
             />
           ))}
-          
-          {/* Contact Section */}
+
+          {/* Contact */}
           <div id="contact" className="rounded-xl overflow-hidden shadow-2xl">
-            <div className="bg-gradient-to-r from-gray-900/70 to-gray-800/40 py-2 px-6">
-              <h2 className="text-2xl font-semibold text-white">Contact Information</h2>
+            <div className={`py-2 px-6 ${isLight ? 'bg-gray-200' : 'bg-gradient-to-r from-gray-900/70 to-gray-800/40'}`}>
+              <h2 className="text-2xl font-semibold">Contact Information</h2>
             </div>
-            <div className="p-6 bg-gradient-to-br from-gray-900/80 to-gray-800/50 backdrop-blur-lg border-t border-gray-700/30">
-              <p className="text-gray-300 mb-4">
+            <div className={`p-6 ${isLight ? 'bg-white border-t border-gray-300' : 'bg-gradient-to-br from-gray-900/80 to-gray-800/50 backdrop-blur-lg border-t border-gray-700/30'}`}>
+              <p className={`${isLight ? 'text-gray-700' : 'text-gray-300'} mb-4`}>
                 For any questions regarding these Terms of Service, please contact us at:
               </p>
               <a 
-                href="mailto:techike@gmail.com" 
-                className="group inline-flex items-center text-gray-400 hover:text-white transition-colors duration-300 text-lg font-medium"
+                href="mailto:techike@gmail.com"
+                className={`group inline-flex items-center transition-colors duration-300 text-lg font-medium ${isLight ? 'text-blue-600 hover:text-black' : 'text-gray-400 hover:text-white'}`}
               >
                 <span className="mr-2">techike@gmail.com</span>
-                <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </a>
             </div>
           </div>
         </div>
-        
-        {/* Back to Home Button */}
+
+        {/* Back Button */}
         <div className="mt-24 flex justify-center">
           <a 
             href="/"
-            className="group relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-medium text-gray-100 transition duration-300 ease-out rounded-full shadow-md"
+            className={`group relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md ${isLight ? 'bg-gray-900 text-white hover:bg-black' : 'text-gray-100'}`}
           >
-            <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-gray-800 to-black"></span>
-            <span className="absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-white opacity-30 group-hover:rotate-90 ease"></span>
-            <span className="relative text-white flex items-center">
-              <svg className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-              </svg>
-              Back to Home
-            </span>
+            Back to Home
           </a>
         </div>
-      </div>
-    </div>
-  );
-};
-
-// Enhanced Section component with animations and interaction
-const Section = ({ id, title, content, isComplex, onActive }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          onActive();
-        }
-      },
-      { threshold: 0.3 }
-    );
-    
-    const element = document.getElementById(`section-${id}`);
-    if (element) observer.observe(element);
-    
-    return () => {
-      if (element) observer.unobserve(element);
-    };
-  }, [id, onActive]);
-
-  return (
-    <div 
-      id={`section-${id}`}
-      className={`rounded-xl overflow-hidden shadow-2xl transition-all duration-700 transform ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-      }`}
-    >
-      <div className="bg-gradient-to-r from-gray-900/70 to-gray-800/40 py-2 px-6 flex items-center">
-        <span className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-gray-400 to-white rounded-full text-black font-bold mr-4">
-          {id}
-        </span>
-        <h2 className="text-2xl font-semibold text-white">{title}</h2>
-      </div>
-      
-      <div className="p-6 bg-gradient-to-br from-gray-900/80 to-gray-800/50 backdrop-blur-lg border-t border-gray-700/30">
-        {isComplex ? (
-          <div className="space-y-4 text-gray-300">
-            <p>{content[0]}</p>
-            <ul className="list-disc pl-8 space-y-2">
-              {content[1].map((item, idx) => (
-                <li key={idx} className="pl-2">{item}</li>
-              ))}
-            </ul>
-            <p>{content[2]}</p>
-            <p>{content[3]}</p>
-          </div>
-        ) : (
-          <p className="text-gray-300">{content}</p>
-        )}
       </div>
     </div>
   );
