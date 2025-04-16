@@ -21,3 +21,22 @@ exports.listClientMentionedRoles = async (req, res) => {
     });
   }
 };
+
+
+exports.getUsersByIds = async (req, res) => {
+  try {
+      const { ids } = req.body; // expects { ids: ['id1', 'id2', ...] }
+      console.log("Backend IDs:", ids)
+
+      if (!ids || !Array.isArray(ids) || ids.length === 0) {
+          return res.status(400).json({ success: false, message: 'Invalid or empty user ID list.' });
+      }
+
+      const users = await User.find({ _id: { $in: ids } });
+
+      return res.status(200).json({ success: true, data: users });
+  } catch (error) {
+      console.error('Error fetching users by IDs:', error);
+      res.status(500).json({ success: false, message: 'Server error' });
+  }
+};

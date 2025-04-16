@@ -53,6 +53,7 @@ export const getRequestsByUserId = async (userId,token) => {
 
 
 export const createRequest = async (requestData,token) => {
+  console.log("PR:", requestData)
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,

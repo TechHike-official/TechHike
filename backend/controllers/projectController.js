@@ -1,4 +1,5 @@
 const Project = require('../models/Project');
+const User = require("../models/User")
 const Assignment = require('../models/Assignment');
 
 exports.getAssignedProjects = async (req, res) => {

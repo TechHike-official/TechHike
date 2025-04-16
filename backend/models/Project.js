@@ -4,11 +4,15 @@ const projectSchema = new mongoose.Schema({
   clientId: {
     type: String,
     required: true,
-    ref: 'Client',  // References the Client model
+    ref: 'Client', // Reference to the Client model
   },
   clientName: {
     type: String,
     required: true,
+  },
+  platform:{
+    type: String,
+    required: true
   },
   projectTitle: {
     type: String,
@@ -20,8 +24,14 @@ const projectSchema = new mongoose.Schema({
   },
   projectStatus: {
     type: String,
-    enum: ['Pending', 'Completed','In Progress', 'On Hold', 'Cancelled'],
+    enum: ['Pending', 'Completed', 'In Progress', 'On Hold', 'Cancelled'],
     default: 'Pending',
+  },
+  progressPercentage: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 0, // 0% completed by default
   },
   projectSource: {
     type: String,
@@ -38,15 +48,15 @@ const projectSchema = new mongoose.Schema({
   paymentTransactionId: {
     type: String,
     default: null,
-  },developers:{
-    type: [String],
-    required: true,
-
   },
+  developers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  }],
   snapshots: {
     type: [String],
-    required:false,
-   
+    required: false,
     default: [],
   },
 }, { timestamps: true });

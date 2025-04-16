@@ -21,6 +21,16 @@ const projectRequestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  platform:{
+    type: String,
+    required: false,
+
+  },
+  purpose:{
+    type: String,
+    required: false,
+
+  },
   projectDescription: {
     type: String,
     required: true,

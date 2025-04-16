@@ -5,9 +5,9 @@ const User = require('../models/User'); // Ensure you have the correct User mode
 
 
 exports.submitProjectRequest = async (req, res) => {
-  const {clientId, projectTitle, projectDescription } = req.body;
+  const {clientId, projectTitle, projectDescription,platform,purpose } = req.body;
 
-  console.log("ClientID:", clientId)
+  console.log("ClientID:", purpose)
 
 
   try {
@@ -19,13 +19,15 @@ exports.submitProjectRequest = async (req, res) => {
     }
 
     const newRequest = new ProjectRequest({
-      clientId, // Assign the found user's ID as clientId
+      clientId,
       projectTitle,
       clientName: user.name,
       phoneNumber:user.phoneNumber,
       email: user.email,
       projectDescription,
-      requestStatus: 'Pending'
+      requestStatus: 'Pending',
+      platform,
+      purpose
       
     });
 
@@ -73,6 +75,8 @@ exports.approveProjectRequest = async (req, res) => {
       const client = await User.findById(request.clientId);
       if (!client) return res.status(404).json({ message: 'Client not found' });
 
+      
+
       // Create a new project with the approved request details
       const newProject = new Project({
           clientId: request.clientId,
@@ -81,7 +85,9 @@ exports.approveProjectRequest = async (req, res) => {
           projectDescription: request.projectDescription,
           projectStatus: 'Pending', // Default status
           price: price,
-          developers: developerIds
+          platform: request.platform,
+          developers: developerIds,
+          
       });
 
       await newProject.save(); // Save the project first
@@ -116,7 +122,7 @@ exports.getUserRequests = async (req, res) => {
 
     // Fetch requests where clientId matches the userId
     const requests = await ProjectRequest.find({ clientId: userId }).select(
-      'projectTitle clientName createdAt requestStatus projectStatusUrl'
+      'projectTitle clientName createdAt requestStatus projectStatusUrl platform purpose'
     );
 
     if (!requests || requests.length === 0) {

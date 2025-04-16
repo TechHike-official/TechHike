@@ -216,7 +216,7 @@ const About = () => {
                     <div className="flex justify-center">
                       <motion.div
                         className={`h-24 w-24 rounded-full border-4 ${
-                          theme === "dark" ? "border-gray-700" : "border-white bg-white"
+                          theme === "dark" ? "border-gray-700 bg-gray-800" : "border-white bg-white"
                         } overflow-hidden shadow-lg poppins-bold flex items-center justify-center`}
                         variants={imageVariants}
                       >
