@@ -2,8 +2,9 @@ import React from 'react';
 import { Globe, Smartphone, Cloud, Brain } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { motion } from 'framer-motion'; // Import Framer Motion
-
+import { motion } from 'framer-motion';
+import Lottie from 'lottie-react';
+import animationData from '../assets/animation/Animation - 1744795112895.json'; 
 const Services = () => {
   const navigate = useNavigate();
   const { theme } = useSelector((state) => state.general);
@@ -35,15 +36,14 @@ const Services = () => {
     navigate('/works');
   };
 
-  // Animation variants for text
   const textVariants = {
     hidden: {
-      x: -50, // Start 50px to the left
-      opacity: 0, // Start invisible
+      x: -50,
+      opacity: 0,
     },
     visible: {
-      x: 0, // Move to original position
-      opacity: 1, // Fade in
+      x: 0,
+      opacity: 1,
       transition: {
         type: "spring",
         stiffness: 100,
@@ -76,7 +76,7 @@ const Services = () => {
                 initial="hidden"
                 animate="visible"
                 variants={textVariants}
-                transition={{ delay: 0.2 }} // Slight delay for staggered effect
+                transition={{ delay: 0.2 }}
               >
                 We're a trusted software development partner for businesses worldwide. 
                 Let us transform your ideas into powerful digital solutions.
@@ -84,7 +84,7 @@ const Services = () => {
               <div className="flex space-x-4">
                 <Link
                   to="#contact"
-                  className={`bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300`}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
                 >
                   Get Started
                 </Link>
@@ -103,12 +103,10 @@ const Services = () => {
               </div>
             </div>
             <div className="md:w-1/2 mt-10 md:mt-0">
-              <img 
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
-                alt="Software Development" 
-                className={`r  ${
-                  theme === 'dark' ? 'shadow-gray-800' : 'shadow-gray-300'
-                }`}
+              <Lottie 
+                animationData={animationData} 
+                loop='False'
+                className="w-full h-auto"
               />
             </div>
           </div>
