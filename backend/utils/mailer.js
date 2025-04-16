@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 
 
 const baseEmailTemplate = (content, options = {}) => {
-  const logoUrl = options.logoUrl || 'hhttps://i.ibb.co/tTnsBPXz/TechHike.png'; // Replace with your actual logo URL
+  const logoUrl = 'https://i.ibb.co/tTnsBPXz/TechHike.png'; // Replace with your actual logo URL
   const primaryColor = options.primaryColor || '#2563eb'; // Blue as default brand color
   const secondaryColor = options.secondaryColor || '#1e40af'; // Darker blue
   
@@ -111,7 +111,7 @@ const sendMail = async ({ to, subject, text, html, logoUrl }) => {
       to,
       subject,
       text,
-      html: baseEmailTemplate(html, { subject, logoUrl }),
+      html: baseEmailTemplate(html, { subject, "https://i.ibb.co/tTnsBPXz/TechHike.png" }),
     });
     console.log('Email sent:', info.messageId);
     return info;
