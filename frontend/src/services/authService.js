@@ -17,6 +17,7 @@ export async function checkEmailExists(email) {
 export async function login(email, password) {
   try {
     const response = await apiClient.post('/auth/login', { email, password });
+    console.log('Data for login:', email,password)
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Login failed' };

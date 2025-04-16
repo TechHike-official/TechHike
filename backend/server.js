@@ -14,8 +14,14 @@ const assistRequestRoutes = require('./routes/assistRequestRoutes');
 const {sendWelcomeEmail} = require('./utils/mailer')
 const app = express();
 
-// Middleware
-app.use(cors());
+const corsOptions = {
+  origin: '*', // Allows all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 // Database connection
