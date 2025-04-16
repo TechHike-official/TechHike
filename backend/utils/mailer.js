@@ -111,7 +111,7 @@ const sendMail = async ({ to, subject, text, html, logoUrl }) => {
       to,
       subject,
       text,
-      html: baseEmailTemplate(html, { subject, "https://i.ibb.co/tTnsBPXz/TechHike.png" }),
+      html: baseEmailTemplate(html, { subject, logoUrl  }),
     });
     console.log('Email sent:', info.messageId);
     return info;

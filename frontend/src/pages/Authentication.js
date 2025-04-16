@@ -129,8 +129,8 @@ const AuthPage = () => {
         googleId,
       });
       setLoading(true);
-
-      const emailCheck = await checkEmailExists(email);
+       console.log("Calling checkemail auth 132")
+       const emailCheck = await checkEmailExists(email);
       if (emailCheck.exists) {
         if (isLogin) {
           const loginData = await googleLogin(googleId, email);

@@ -7,7 +7,7 @@ const apiClient = axios.create({
 
 export async function checkEmailExists(email) {
   try {
-    const response = await apiClient.post('/auth/check-email', { email });
+    const response = await apiClient.post('/auth/check-email', { email:email });
     return response.data;
   } catch (error) {
     throw error.response?.data || { message: 'Error checking email' };

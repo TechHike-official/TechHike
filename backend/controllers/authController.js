@@ -12,8 +12,10 @@ const generateToken = (id) => {
 
 // Check if email exists
 exports.checkEmail = async (req, res) => {
+
   try {
     const { email } = req.body;
+    console.log("EMAIL:", email)
     const user = await User.findOne({ email }).select('_id');
     
     res.status(200).json({
