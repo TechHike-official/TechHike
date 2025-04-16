@@ -35,6 +35,9 @@ app.use('/api/admins', adminRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/assist-request', assistRequestRoutes);
+app.get('/', (req, res) => {
+  res.send('🚀 Tech Hike Server Running');
+});
 
 
 // Start server
