@@ -17,6 +17,7 @@ const Section = ({ id, title, content, isComplex, onActive }) => {
   return (
     <section id={`section-${id}`}>
       <h3 className="text-3xl font-bold mb-4">{title}</h3>
+      
       {isComplex ? (
         <div className="space-y-4">
           {content.map((item, index) =>
