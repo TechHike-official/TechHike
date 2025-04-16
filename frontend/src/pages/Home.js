@@ -6,6 +6,7 @@ import CookieContent from "../components/cookies";
 import SideContactNavbar from "../components/SideContactDialogue";
 import TechStack from "../pages/techused";
 
+
 // CSS for global scrollbar styling
 const scrollbarStyle = `
   /* Hide scrollbar for Chrome, Safari and Opera */
