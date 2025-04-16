@@ -150,7 +150,7 @@ const Home = () => {
             zIndex: 1000,
             boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
             transition: "all 0.3s ease",
-            opacity: scrollbarVisible ? "1" : "0.6", // Match scrollbar visibility
+            opacity: scrollbarVisible ? "1" : "0.6", 
           }}
           aria-label="Scroll to top"
           onMouseOver={(e) => {
