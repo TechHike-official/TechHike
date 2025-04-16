@@ -14,7 +14,8 @@ import About from "./pages/About";
 import RequestManagement from "./pages/RequestManagement";
 import Work from "./pages/works";
 import MaintenancePage from "./pages/MaintenancePage";
-
+import TermsOfService from './pages/TermsOfService';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -80,6 +81,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/works" element={<MaintenancePage />} />
           <Route path="*" element={<MaintenancePage />} />
+          <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
         </Routes>
       </div>
     </div>
