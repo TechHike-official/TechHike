@@ -1,6 +1,7 @@
 // controllers/authController.js
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const { sendWelcomeEmail } = require('../utils/mailer');
 
 // Generate JWT token
 const generateToken = (id) => {
@@ -59,6 +60,7 @@ exports.register = async (req, res) => {
         role: user.role,
       },
     });
+    sendWelcomeEmail(user.email,user.name)
   } catch (err) {
     res.status(500).json({
       message: 'Registration failed',
@@ -106,6 +108,7 @@ exports.googleAuth = async (req, res) => {
         role: user.role,
       },
     });
+    sendWelcomeEmail(user.email,user.name)
   } catch (err) {
     res.status(500).json({
       message: 'Google authentication failed',
@@ -189,6 +192,7 @@ exports.googleLogin = async (req, res) => {
         role: user.role,
       },
     });
+ 
   } catch (err) {
     res.status(500).json({
       message: 'Google login failed',

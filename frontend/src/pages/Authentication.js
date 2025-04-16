@@ -22,7 +22,7 @@ import { useDispatch } from 'react-redux';
 
 const AuthPage = () => {
   const dispatch = useDispatch();
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: '',

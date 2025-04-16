@@ -2,6 +2,7 @@ const Project = require('../models/Project');
 const Assignment = require('../models/Assignment');
 const ProjectRequest = require('../models/ProjectRequest'); // Import missing model
 const User = require('../models/User'); // Ensure you have the correct User model import
+const { sendProjectApprovalEmail } = require('../utils/mailer');
 
 
 exports.submitProjectRequest = async (req, res) => {
@@ -110,6 +111,8 @@ exports.approveProjectRequest = async (req, res) => {
           price: request.price,
           developers: request.developers,
       });
+
+      sendProjectApprovalEmail(client.email,client.name, request.projectTitle,`http://techhike.vercel.app/dashboard/projects/${newProject._id}`)
 
   } catch (err) {
       res.status(500).json({ message: 'Error approving request', error: err.message });

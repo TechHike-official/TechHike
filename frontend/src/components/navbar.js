@@ -77,11 +77,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex group relative">
+            <Link to="/" className="flex-shrink-0 flex group relative items-center">
               <img src={Logo} alt="logo" className="w-10" />
               <h1
-                className={`text-2xl font-bold transition-colors duration-300 group-hover:text-blue-600 ${
-                  theme === 'light' ? 'text-black' : 'text-white'
+                className={`text-2xl font-bold transition-colors poppins-bold duration-300 group-hover:text-blue-600 ${
+                  theme === 'light' ? 'text-blue-800' : 'text-white'
                 }`}
               >
                 Tech Hike
