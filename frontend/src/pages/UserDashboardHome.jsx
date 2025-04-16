@@ -37,12 +37,12 @@ const UserDashboard = () => {
 
   // Quick action handlers
   const quickActions = [
-    { icon: <Zap size={24} />, label: 'New Project', action: () => navigate('/dashboard/request'), color: 'bg-gradient-to-r from-purple-500 to-indigo-600' },
-    { icon: <MessageCircle size={24} />, label: 'Messages', action: () => navigate('/messages'), color: 'bg-gradient-to-r from-blue-500 to-cyan-500' },
-    { icon: <Calendar size={24} />, label: 'Schedule', action: () => navigate('/schedule'), color: 'bg-gradient-to-r from-green-500 to-emerald-500' },
+    { icon: <Zap size={24} />, label: 'New Project', action: () => navigate('/dashboard/request/project/new'), color: 'bg-gradient-to-r from-purple-500 to-indigo-600' },
+    { icon: <MessageCircle size={24} />, label: 'Assistance', action: () => navigate('/dashboard/request/assistance/new'), color: 'bg-gradient-to-r from-blue-500 to-cyan-500' },
+    
     { icon: <FileText size={24} />, label: 'Reports', action: () => navigate('/reports'), color: 'bg-gradient-to-r from-yellow-500 to-amber-500' },
     { icon: <HelpCircle size={24} />, label: 'Help Center', action: () => navigate('/help'), color: 'bg-gradient-to-r from-red-500 to-pink-500' },
-    { icon: <Users size={24} />, label: 'Team', action: () => navigate('/team'), color: 'bg-gradient-to-r from-indigo-500 to-purple-600' },
+   
     { icon: <BarChart2 size={24} />, label: 'Analytics', action: () => navigate('/analytics'), color: 'bg-gradient-to-r from-cyan-500 to-blue-500' },
     { icon: <Settings size={24} />, label: 'Settings', action: () => navigate('/settings'), color: 'bg-gradient-to-r from-gray-500 to-gray-700' }
   ];

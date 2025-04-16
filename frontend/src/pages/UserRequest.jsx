@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getRequestsByUserId, createRequest } from '../services/requestService';
-import { 
-  createAssistRequest, 
-  getUserAssistRequests, 
-  payAssistRequest, 
-  submitFeedback 
+import {
+  createAssistRequest,
+  getUserAssistRequests,
+  payAssistRequest,
+  submitFeedback
 } from '../services/assistRequestService';
 import ProjectRequestForm from '../components/ProjectRequestForm';
 import AssistRequestForm from '../components/AssistRequestForm';
@@ -26,16 +26,23 @@ const UserRequest = () => {
   const [activeTab, setActiveTab] = useState('projects');
   const [expandedRequest, setExpandedRequest] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useSelector((state) => state.user);
   const theme = useSelector((state) => state.general.theme);
+  const fromNew = location.state?.fromNew;
+  
 
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
+       
+      
         const [projectRequests, assistRequestsData] = await Promise.all([
           getRequestsByUserId(user.id).catch(() => null),
           getUserAssistRequests(user.id).catch(() => null),
         ]);
+
 
         setRequests(projectRequests || []);
         setAssistRequests(assistRequestsData || []);
@@ -53,7 +60,21 @@ const UserRequest = () => {
     fetchData();
   }, [user.id]);
 
-  // Rest of your existing useEffect for filtering remains unchanged
+  useEffect(() => {
+    if (location.pathname === '/dashboard/request/project/new') {
+      setShowRequestForm(true);
+      setShowAssistForm(false);
+    } else if (location.pathname === '/dashboard/request/assistance/new') {
+      setShowAssistForm(true);
+      setShowRequestForm(false);
+    } else {
+      setShowRequestForm(false);
+      setShowAssistForm(false);
+      
+    }
+  }, [location.pathname]);
+  
+
   useEffect(() => {
     const filtered = requests.filter(request =>
       (request.projectTitle || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -63,13 +84,12 @@ const UserRequest = () => {
     setFilteredRequests(filtered);
   }, [searchTerm, requests]);
 
-  // Rest of your existing functions remain unchanged
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
@@ -91,7 +111,14 @@ const UserRequest = () => {
       const token = localStorage.getItem('token');
       const requestData = { ...formData, clientId: user.id };
       await createRequest(requestData, token);
-      window.location.reload();
+     
+      if (location.pathname === '/dashboard/request/project/new' || location.pathname === '/dashboard/request/assistance/new' ) {
+        
+        navigate('/dashboard/request', { state: { fromNew: true } });
+      }else{
+        window.location.reload();
+      }
+
       setShowRequestForm(false);
       setError(null);
     } catch (err) {
@@ -167,7 +194,7 @@ const UserRequest = () => {
             Manage your project and assistance requests
           </p>
         </div>
-        
+
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
           <button
             onClick={() => setShowRequestForm(true)}
@@ -188,16 +215,16 @@ const UserRequest = () => {
       <div className="flex border-b mb-6">
         <button
           onClick={() => setActiveTab('projects')}
-          className={`px-4 py-2 font-medium ${activeTab === 'projects' ? 
-            (theme === 'dark' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-blue-600 border-b-2 border-blue-600') : 
+          className={`px-4 py-2 font-medium ${activeTab === 'projects' ?
+            (theme === 'dark' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-blue-600 border-b-2 border-blue-600') :
             (theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-gray-600 hover:text-gray-800')}`}
         >
           Project Requests ({requests.length})
         </button>
         <button
           onClick={() => setActiveTab('assistance')}
-          className={`px-4 py-2 font-medium ${activeTab === 'assistance' ? 
-            (theme === 'dark' ? 'text-purple-400 border-b-2 border-purple-400' : 'text-purple-600 border-b-2 border-purple-600') : 
+          className={`px-4 py-2 font-medium ${activeTab === 'assistance' ?
+            (theme === 'dark' ? 'text-purple-400 border-b-2 border-purple-400' : 'text-purple-600 border-b-2 border-purple-600') :
             (theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-gray-600 hover:text-gray-800')}`}
         >
           Assistance Requests ({assistRequests.length})
@@ -256,7 +283,7 @@ const UserRequest = () => {
                         <StatusBadge status={request.requestStatus} theme={theme} />
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2">
                       {request.requestStatus === 'Approved' && (
                         <button
@@ -274,7 +301,7 @@ const UserRequest = () => {
                       </button>
                     </div>
                   </div>
-                  
+
                   {expandedRequest === request._id && (
                     <div className={`mt-4 pt-4 border-t ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
                       {/* Existing expanded details */}
@@ -286,7 +313,7 @@ const UserRequest = () => {
                             <p className="text-sm"><span className={`font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Purpose:</span> {request.purpose || 'N/A'}</p>
                           </div>
                         </div>
-                        
+
                         <div>
                           <h4 className="text-sm font-medium mb-2">Status Information</h4>
                           {request.requestStatus === 'Pending' ? (
@@ -345,7 +372,7 @@ const UserRequest = () => {
                         <StatusBadge status={request.assistStatus} theme={theme} />
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2">
                       {request.requestStatus === 'Approved' && !request.transactionId && (
                         <button
@@ -380,7 +407,7 @@ const UserRequest = () => {
                       </button>
                     </div>
                   </div>
-                  
+
                   {expandedRequest === request._id && (
                     <div className={`mt-4 pt-4 border-t ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
                       {/* Existing expanded details */}
@@ -392,7 +419,7 @@ const UserRequest = () => {
                             <p className="text-sm"><span className={`font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Technologies:</span> {request.projectTechnologies?.join(', ') || 'N/A'}</p>
                           </div>
                         </div>
-                        
+
                         <div>
                           <h4 className="text-sm font-medium mb-2">Request Information</h4>
                           {request.requestStatus === 'Pending' ? (

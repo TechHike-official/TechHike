@@ -52,8 +52,11 @@ const Dashboard = () => {
           <Route path="/" element={userRole === "admin" ? <DashboardHome /> : <UserDashboard />} />
           <Route path="settings" element={<Settings />} />
           <Route path="projects" element={userRole === "admin" ? <ProjectManagement /> : <UserProject />} />
+          
       
           <Route path="request" element={userRole === "admin" ? <RequestManagement /> : <UserRequest />} />
+          <Route path="request/project/new" element={ <UserRequest />} />
+          <Route path="request/assistance/new" element={ <UserRequest />} />
           <Route path="clients" element={userRole === "admin" ? <Clients /> : <NotFound />} />
           <Route path="projects/:projectId" element={userRole === "admin" ? <ProjectDetail /> : <UserProjectDetails />} />
      
