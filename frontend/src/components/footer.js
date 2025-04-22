@@ -84,7 +84,7 @@ const Footer = () => {
         <hr className="my-10 border-gray-800" />
 
         <div className="flex flex-col md:flex-row md:justify-between items-center">
-          <p className="text-gray-500">&copy; {new Date().getFullYear()} TECH HIKE (All rights reserved).</p>
+          <p className="text-gray-500">&copy; {new Date().getFullYear()} TECH HIKE All rights reserved.</p>
           <div className="mt-6 md:mt-0">
             <ul className="flex flex-wrap justify-center space-x-6">
               <li><a href="/terms" className="text-gray-500 hover:text-blue-400 transition duration-300">Terms of Service</a></li>
