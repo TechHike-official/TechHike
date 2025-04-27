@@ -61,7 +61,7 @@ const UserDashboard = () => {
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
-      <div className="max-w-7xl mt-16 mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl lg:mt-16 mt-12 mx-auto px-4 sm:px-6 lg:px-8 lg:py-8">
         {/* Header with user greeting */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
@@ -84,7 +84,7 @@ const UserDashboard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className={`rounded-xl p-6 shadow-sm ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
             <div className="flex items-center">
               <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/50 mr-4">
@@ -132,7 +132,7 @@ const UserDashboard = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Quick Actions Section */}
         <div className="mb-10">
