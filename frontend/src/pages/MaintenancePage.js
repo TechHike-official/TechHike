@@ -29,7 +29,7 @@ const MaintenancePage = () => {
         {/* Status Message */}
         <div className="bg-blue-50 rounded-lg p-4 mb-6 sm:mb-8">
           <p className="text-xs sm:text-sm md:text-base text-blue-700 font-medium">
-            Estimated completion: <span className="font-semibold">April 30, 2025</span>
+            Estimated completion: <span className="font-semibold">May 17, 2025</span>
           </p>
         </div>
 
