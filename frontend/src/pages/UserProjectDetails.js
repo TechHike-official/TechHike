@@ -237,9 +237,9 @@ const UserProjectDetails = () => {
                       Remaining Amount
                     </label>
                     <div className="flex items-center">
-                      <DollarSign className="h-6 w-6 text-gray-500 mr-2" />
+                      <IndianRupee className="h-6 w-6 text-gray-500 mr-2" />
                       <span className="text-3xl font-bold text-gray-900">
-                        ₹{(project.price / 2).toFixed(2)}
+                        {(project.price / 2).toFixed(2)}
                       </span>
                     </div>
                     <p className="text-sm text-gray-500 mt-2">
