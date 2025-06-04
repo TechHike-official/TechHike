@@ -1,3 +1,6 @@
-# https://www.robotstxt.org/robotstxt.html
+# robots.txt for TechHike - Web & Software Development
+
 User-agent: *
 Disallow:
+
+Sitemap: https://techhike.vercel.app/sitemap.xml
