@@ -1,25 +1,11 @@
-import axios from 'axios';
+import apiClient from './apiClient';
 
-const API_URL = process.env.REACT_APP_BACKEND_API; 
-
-
-export const getAssignedProjects = async (userId, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await axios.get(`${API_URL}/project/assigned/${userId}`, config);
+export const getAssignedProjects = async (userId) => {
+  const response = await apiClient.get(`/project/assigned/${userId}`);
   return response.data;
 };
 
-export const getAllProjects = async (userId, token) => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    const response = await axios.get(`${API_URL}/project/all`, config);
-    return response.data;
-  };
-
+export const getAllProjects = async () => {
+  const response = await apiClient.get('/project/all');
+  return response.data;
+};

@@ -1,5 +1,3 @@
-
-
 // utils/mailer.js
 const nodemailer = require('nodemailer');
 require('dotenv').config();
@@ -8,16 +6,15 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_APP_PASSWORD
-  }
+    pass: process.env.EMAIL_APP_PASSWORD,
+  },
 });
 
-
 const baseEmailTemplate = (content, options = {}) => {
-  const logoUrl = 'https://i.ibb.co/tTnsBPXz/TechHike.png'; // Replace with your actual logo URL
-  const primaryColor = options.primaryColor || '#2563eb'; // Blue as default brand color
-  const secondaryColor = options.secondaryColor || '#1e40af'; // Darker blue
-  
+  const logoUrl = 'https://i.ibb.co/tTnsBPXz/TechHike.png';
+  const primaryColor = options.primaryColor || '#2563eb';
+  const secondaryColor = options.secondaryColor || '#1e40af';
+
   return `
   <!DOCTYPE html>
   <html lang="en">
@@ -105,22 +102,26 @@ const baseEmailTemplate = (content, options = {}) => {
 };
 
 const sendMail = async ({ to, subject, text, html, logoUrl }) => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_APP_PASSWORD) {
+    console.warn('[Mailer Warning] EMAIL_USER or EMAIL_APP_PASSWORD not set in backend/.env. Skipping email sending.');
+    return { messageId: 'skipped-no-credentials' };
+  }
+
   try {
     const info = await transporter.sendMail({
       from: `"Tech Hike" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       text,
-      html: baseEmailTemplate(html, { subject, logoUrl  }),
+      html: baseEmailTemplate(html, { subject, logoUrl }),
     });
-    console.log('Email sent:', info.messageId);
+    console.log('[Mailer] Email sent successfully:', info.messageId);
     return info;
   } catch (error) {
-    console.error('Error sending email:', error);
-    throw error;
+    console.error('[Mailer Error] Failed to send email:', error.message);
+    return { error: error.message };
   }
 };
-
 
 const sendWelcomeEmail = (to, name, logoUrl) => {
   const content = `
@@ -149,7 +150,6 @@ const sendWelcomeEmail = (to, name, logoUrl) => {
   });
 };
 
-// 2. Project Completion Email
 const sendProjectCompletionEmail = (to, name, projectName, logoUrl) => {
   const content = `
     <h1>🎉 Project Completed Successfully!</h1>
@@ -177,7 +177,6 @@ const sendProjectCompletionEmail = (to, name, projectName, logoUrl) => {
   });
 };
 
-// 3. Payment Confirmation Email
 const sendPaymentConfirmationEmail = (to, name, amount, invoiceId, logoUrl) => {
   const content = `
     <h1>💰 Payment Received</h1>
@@ -206,7 +205,6 @@ const sendPaymentConfirmationEmail = (to, name, amount, invoiceId, logoUrl) => {
   });
 };
 
-// 4. Project Request Approval Email
 const sendProjectApprovalEmail = (to, name, projectName, learnMoreLink, logoUrl) => {
   const content = `
     <h1>✅ Project Request Approved</h1>
@@ -237,7 +235,6 @@ const sendProjectApprovalEmail = (to, name, projectName, learnMoreLink, logoUrl)
   });
 };
 
-// 5. Assistance Request Approval Email
 const sendAssistanceApprovalEmail = (to, name, assistanceTitle, learnMoreLink, logoUrl) => {
   const content = `
     <h1>🤝 Assistance Request Approved</h1>

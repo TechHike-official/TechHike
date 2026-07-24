@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { GithubIcon, Mail, Globe, Code, Coffee, Heart, Award } from "lucide-react";
 import { motion } from "framer-motion";
-import Footer from "../components/footer";
+import Footer from "../components/Footer.jsx";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 

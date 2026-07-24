@@ -1,65 +1,29 @@
-import axios from 'axios';
+import apiClient from './apiClient';
 
-const API_URL = process.env.REACT_APP_BACKEND_API; // Base URL for your backend API
-
-// Fetch all project requests (for admin panel)
-export const getAllRequests = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await axios.get(`${API_URL}/request/requests/admin`, config);
+export const getAllRequests = async () => {
+  const response = await apiClient.get('/request/requests/admin');
   return response.data;
 };
 
-// Approve a specific project request
-export const approveRequest = async (requestId, developerIds, price, clientName, token) => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-  
-    const response = await axios.put(
-      `${API_URL}/request/${requestId}/approve`,
-      { developerIds, price, clientName }, // Sending price and clientName along with developerIds
-      config
-    );
-  
-    return response.data;
-  };
-  
-// Fetch all developers (to assign to projects upon approval)
-export const getAllDevelopers = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await axios.get(`${API_URL}/developer`, config);
+export const approveRequest = async (requestId, developerIds, price, clientName) => {
+  const response = await apiClient.put(
+    `/request/${requestId}/approve`,
+    { developerIds, price, clientName }
+  );
   return response.data;
 };
 
-export const getRequestsByUserId = async (userId,token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await axios.get(`${API_URL}/request/user/${userId}`, config);
+export const getAllDevelopers = async () => {
+  const response = await apiClient.get('/developer');
+  return response.data;
+};
+
+export const getRequestsByUserId = async (userId) => {
+  const response = await apiClient.get(`/request/user/${userId}`);
   return response.data.data;
 };
 
-
-export const createRequest = async (requestData,token) => {
-  console.log("PR:", requestData)
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await axios.post(`${API_URL}/request`,requestData, config);
+export const createRequest = async (requestData) => {
+  const response = await apiClient.post('/request', requestData);
   return response.data.data;
 };
-
